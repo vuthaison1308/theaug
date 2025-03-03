@@ -609,51 +609,50 @@
         </section>
         
         <!-- Blog Page -->
-        <section id="blog-page">
-            <div class="blog-header">
-                <h1>My Blog</h1>
-                <p>Thoughts, stories and ideas about web development, programming, and technology.</p>
+    <section id="blog-page">
+        <div class="blog-header">
+            <h1>My Blog</h1>
+            <p>Thoughts, stories and ideas about web development, programming, and technology.</p>
+        </div>
+        
+        <div class="blog-grid">
+            <div class="blog-card" data-youtube-url="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                <div class="blog-img">
+                    <img src="https://wallpapers.com/images/hd/cool-minecraft-background-wc0nilruugvyh5nu.jpg" alt="Blog Post">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">March 1, 2025</div>
+                    <h3 class="blog-title">Nigga 1</h3>
+                    <p class="blog-excerpt">son</p>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="read-more" target="_blank">Xem Video →</a>
+                </div>
             </div>
             
-            <div class="blog-grid">
-                <div class="blog-card">
-                    <div class="blog-img">
-                        <img src="https://wallpapers.com/images/hd/cool-minecraft-background-wc0nilruugvyh5nu.jpg" alt="Blog Post">
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-date">March 1, 2025</div>
-                        <h3 class="blog-title">Nigga 1</h3>
-                        <p class="blog-excerpt">son</p>
-                        <a href="https://www.youtube.com/watch?v=example1" class="read-more" target="_blank">Xem Video →</a>
-                    </div>
+            <div class="blog-card" data-youtube-url="https://www.youtube.com/watch?v=vEBLkBUrNog">
+                <div class="blog-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiP2g4hG0aCwqzSd8pGACoM4DUtTMDLCqOpg&s" alt="Blog Post">
                 </div>
-                
-                <div class="blog-card">
-                    <div class="blog-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiP2g4hG0aCwqzSd8pGACoM4DUtTMDLCqOpg&s" alt="Blog Post">
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-date">February 15, 2025</div>
-                        <h3 class="blog-title">Nigga 2</h3>
-                        <p class="blog-excerpt">dep</p>
-                        <a href="https://www.youtube.com/watch?v=example2" class="read-more" target="_blank">Xem Video →</a>
-                    </div>
-                </div>
-                
-                <div class="blog-card">
-                    <div class="blog-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTluI3oKv_2ejTiIvjbw4y17yRGSx-E2s43Bw&s" alt="Blog Post">
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-date">January 28, 2025</div>
-                        <h3 class="blog-title">Nigga 3</h3>
-                        <p class="blog-excerpt">trai</p>
-                        <a href="https://www.youtube.com/watch?v=example3" class="read-more" target="_blank">Xem Video →</a>
-                    </div>
+                <div class="blog-content">
+                    <div class="blog-date">February 15, 2025</div>
+                    <h3 class="blog-title">Nigga 2</h3>
+                    <p class="blog-excerpt">dep</p>
+                    <a href="https://www.youtube.com/watch?v=vEBLkBUrNog" class="read-more" target="_blank">Xem Video →</a>
                 </div>
             </div>
-        </section>
-    </div>
+            
+            <div class="blog-card" data-youtube-url="https://www.youtube.com/watch?v=L6eOiAL1mME">
+                <div class="blog-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTluI3oKv_2ejTiIvjbw4y17yRGSx-E2s43Bw&s" alt="Blog Post">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">January 28, 2025</div>
+                    <h3 class="blog-title">Nigga 3</h3>
+                    <p class="blog-excerpt">trai</p>
+                    <a href="https://www.youtube.com/watch?v=L6eOiAL1mME" class="read-more" target="_blank">Xem Video →</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
         // Navigation functionality
@@ -729,6 +728,9 @@
             if (document.getElementById('typed-text')) {
                 setTimeout(startTypingAnimation, 1000);
             }
+            
+            // YouTube video integration
+            loadYouTubeData();
         });
         
         // Improved typing animation with consistent speed
@@ -766,6 +768,68 @@
                 // Pause before typing next word
                 setTimeout(() => typeWord(words[currentWordIndex], element, 0), 1000);
             }
+        }
+        
+        // YouTube integration functions
+        function loadYouTubeData() {
+            // Get all blog cards
+            const blogCards = document.querySelectorAll('.blog-card');
+            
+            blogCards.forEach(card => {
+                // Use the data attribute if available, otherwise use the read-more link
+                let youtubeUrl = card.getAttribute('data-youtube-url');
+                
+                if (!youtubeUrl) {
+                    const readMoreLink = card.querySelector('.read-more');
+                    if (readMoreLink) {
+                        youtubeUrl = readMoreLink.getAttribute('href');
+                    }
+                }
+                
+                if (!youtubeUrl || !youtubeUrl.includes('youtube.com/watch?v=')) return;
+                
+                // Extract video ID from URL
+                const videoId = extractYouTubeVideoId(youtubeUrl);
+                if (!videoId) return;
+                
+                // Set thumbnail
+                const imgElement = card.querySelector('.blog-img img');
+                if (imgElement) {
+                    // Try to use max resolution thumbnail, with fallback to high quality
+                    imgElement.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                    imgElement.onerror = function() {
+                        // If maxresdefault is not available, fall back to hqdefault
+                        this.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                    };
+                }
+                
+                // Get video title using oEmbed API
+                fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(youtubeUrl)}&format=json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update title
+                        const titleElement = card.querySelector('.blog-title');
+                        if (titleElement && data.title) {
+                            titleElement.textContent = data.title;
+                        }
+                        
+                        // Optionally update excerpt with author info
+                        const excerptElement = card.querySelector('.blog-excerpt');
+                        if (excerptElement && data.author_name) {
+                            excerptElement.textContent = `By ${data.author_name}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching YouTube data:', error);
+                    });
+            });
+        }
+        
+        // Helper function to extract YouTube video ID
+        function extractYouTubeVideoId(url) {
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[7].length === 11) ? match[7] : null;
         }
     </script>
 </body>
